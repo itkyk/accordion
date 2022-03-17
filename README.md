@@ -33,9 +33,21 @@ accordion.destroy();
 ```
 
 ## Option
-| key | default  | value |
-|------|-----------|---------|
-| type | "toggle" | "toggle" | "divide" |
-| button | |".js-accordion-button" | if type is `toggle`,  open or close torigger className of dom |
+| key | default  | value |description |
+|------|-----------|---------|---------------|
+| type | "toggle" | "toggle" | "divide" | select button type. |
+| button |".js-accordion-button" | `string or HTMLElement` | if type is `toggle`,  open or close torigger className of dom |
+| buttons |{open: ".js-accordion-button-open", close: ".js-accordion-button-close"} | {open: `string or HTMLElement`, close: `string or HTMLElement`} | if type is ``,  open or close torigger of html elements className of each dom.  |
+| wrapper | ".js-accordion-wrap" | `string of HTMLElement` | accordion wrapper hrml element or className of dom |
+| inner | ".js-accordion-inner" | `string of HTMLElement` |  accordion inner html element or className of dom |
 
 ## methods
+| key | description |
+|------|-----------|
+| mount | set accordion logics | 
+| destroy | remove addEventListeners | 
+| setOpenCallback | added function of when opening the accordion |
+| setCloseCallback | added function of when closing the accordion | 
+
+## Sample code
+[https://itkyk-mymodules.netlify.app/itkyk/accrodion/](https://itkyk-mymodules.netlify.app/itkyk/accrodion/)
