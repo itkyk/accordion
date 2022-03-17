@@ -1,0 +1,26 @@
+{
+  "name": "@itkyk/accordion",
+  "version": "1.0.0",
+  "description": "simple accordion logic module",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itkyk/accordion.git"
+  },
+  "keywords": [
+    "accordion",
+    "typescript"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/itkyk/accordion/issues"
+  },
+  "homepage": "https://github.com/itkyk/accordion#readme",
+  "dependencies": {
+    "deepmerge": "^4.2.2"
+  }
+}
