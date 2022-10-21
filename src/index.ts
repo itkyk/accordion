@@ -7,6 +7,7 @@ interface propsOptionInterface {
   buttons?: {open: element, close: element};
   wrapper?: element;
   inner?: element;
+  initialHeight?: number | element | null;
 }
 
 interface defaultOptionInterface {
@@ -15,6 +16,7 @@ interface defaultOptionInterface {
   buttons: {open: element, close: element};
   wrapper: element;
   inner: element;
+  initialHeight: number | element | null;
 }
 
 const defaultOption: defaultOptionInterface = {
@@ -25,19 +27,21 @@ const defaultOption: defaultOptionInterface = {
     close: ".js-accordion-button-close"
   },
   wrapper: ".js-accordion-wrap",
-  inner: ".js-accordion-inner"
+  inner: ".js-accordion-inner",
+  initialHeight: null
 }
 
 class Accordion {
-  private readonly target: HTMLElement;
+  public readonly target: HTMLElement;
   private readonly option: defaultOptionInterface;
-  private readonly button: Record<string, HTMLElement>
-  private readonly wrap: HTMLElement;
-  private readonly inner: HTMLElement;
+  public readonly button: Record<string, HTMLElement>
+  public readonly wrap: HTMLElement;
+  public readonly inner: HTMLElement;
   private openFunc: ()=>void;
   private closeFunc: ()=>void;
   private addEventFunc: ()=>void;
   private openFlag: boolean;
+  private closingHeight: number | null;
   constructor(target: element, option: propsOptionInterface) {
     this.target = typeof target !== "string"? target : document.querySelector(target) as HTMLElement;
     this.option = merge(defaultOption, option);
@@ -56,6 +60,16 @@ class Accordion {
     }
     this.wrap = typeof this.option.wrapper === "string" ? this.target.querySelector(this.option.wrapper) as HTMLElement : this.option.wrapper;
     this.inner = typeof this.option.inner === "string" ? this.target.querySelector(this.option.inner) as HTMLElement : this.option.inner;
+    if (typeof this.option.initialHeight === "string") {
+      this.closingHeight = this.target.querySelector(this.option.initialHeight)!.getBoundingClientRect().height;
+    } else if (typeof this.option.initialHeight === "number") {
+      this.closingHeight = this.option.initialHeight;
+    } else if (this.option.initialHeight === null) {
+      this.closingHeight = this.option.initialHeight;
+    } else {
+      this.closingHeight = this.option.initialHeight.getBoundingClientRect().height;
+    }
+    this.wrap.style.height = this.closingHeight ? `${this.closingHeight}px` : ""
     this.openFlag = false;
     this.openFunc = () => {};
     this.closeFunc = () => {};
@@ -74,7 +88,7 @@ class Accordion {
     this.closeFunc = cb;
   }
 
- clickToggleBtn = () => {
+ private clickToggleBtn = () => {
     if (this.openFlag) {
       this.resetHeight();
       this.closeFunc();
@@ -85,31 +99,38 @@ class Accordion {
    this.openFlag = !this.openFlag;
  }
 
- clickOpenBtn = () => {
+ private clickOpenBtn = () => {
     this.openFlag = true;
     this.setHeight();
  }
 
- clickCloseBtn = () => {
+ private clickCloseBtn = () => {
     this.openFlag = false;
    this.resetHeight();
  }
 
- resizeEvent = () => {
+ private resizeEvent = () => {
+   if (typeof this.option.initialHeight === "string") {
+     this.closingHeight = this.target.querySelector(this.option.initialHeight)!.getBoundingClientRect().height;
+   }else if (this.option.initialHeight !== null && typeof this.option.initialHeight !== "number") {
+     this.closingHeight = this.option.initialHeight.getBoundingClientRect().height;
+   }
     if (this.openFlag) {
       this.setHeight();
+    } else {
+      this.resetHeight()
     }
  }
 
- setHeight = () => {
+ private setHeight = () => {
     this.wrap.style.height = `${this.inner.getBoundingClientRect().height}px`;
  }
 
- resetHeight = () => {
-   this.wrap.style.height = "";
+ private resetHeight = () => {
+   this.wrap.style.height = this.closingHeight ? `${this.closingHeight}px`:""
  }
 
- addEvents = () => {
+ private addEvents = () => {
     switch (this.option.type) {
       case "divide":
         this.button.open.addEventListener("click", this.clickOpenBtn);
@@ -119,6 +140,10 @@ class Accordion {
         this.button.toggle.addEventListener("click", this.clickToggleBtn);
     }
     window.addEventListener("resize", this.resizeEvent)
+ }
+
+ getOpenFlag = (): Boolean => {
+    return this.openFlag;
  }
 
  destroy = () => {
@@ -133,5 +158,6 @@ class Accordion {
    window.removeEventListener("resize", this.resizeEvent)
  }
 }
+
 
 export default Accordion;
