@@ -158,7 +158,8 @@ class Accordion {
      case "toggle":
        this.button.toggle.removeEventListener("click", this.clickToggleBtn);
    }
-   window.removeEventListener("resize", this.resizeEvent)
+   window.removeEventListener("resize", this.resizeEvent);
+   this.wrap.style.height = "";
  }
 }
 

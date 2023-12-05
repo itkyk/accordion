@@ -39,7 +39,7 @@ accordion.setCloseCallback(()=>{
 // start acrodion
 accordion.mount();
 
-// desctoy event listener
+// desctoy event listener & remove height
 accordion.destroy();
 ```
 
@@ -72,5 +72,7 @@ accordion.destroy();
 
 
 ## Change Log
+- v1.0.6
+    -  Corrected to remove wrapper height when destroying.
 - v1.0.5
-  -  Fixed a bug when passing `HTMLElement` in option
+  -  Fixed a bug when passing `HTMLElement` in option.
