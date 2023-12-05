@@ -1,6 +1,6 @@
 {
   "name": "@itkyk/accordion",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "simple accordion logic module",
   "main": "dist/index.js",
   "scripts": {
@@ -22,7 +22,8 @@
   },
   "homepage": "https://github.com/itkyk/accordion#readme",
   "dependencies": {
-    "deepmerge": "^4.2.2"
+    "deepmerge": "^4.2.2",
+    "is-plain-object": "^5.0.0"
   },
   "devDependencies": {
     "typescript": "^4.8.4"

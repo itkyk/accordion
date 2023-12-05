@@ -1,4 +1,7 @@
+
 import merge from "deepmerge";
+import {isPlainObject} from "is-plain-object";
+
 type element = string | HTMLElement;
 
 interface propsOptionInterface {
@@ -44,7 +47,7 @@ class Accordion {
   private closingHeight: number | null;
   constructor(target: element, option: propsOptionInterface) {
     this.target = typeof target !== "string"? target : document.querySelector(target) as HTMLElement;
-    this.option = merge(defaultOption, option);
+    this.option = merge(defaultOption, option, {isMergeableObject: isPlainObject});
     switch (this.option.type) {
       case "divide":
         this.button = {
